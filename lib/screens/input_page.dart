@@ -1,9 +1,13 @@
+import 'package:bmi_calculator/Calculator_brain.dart';
+import 'package:bmi_calculator/screens/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'Icon_Content.dart';
-import 'Reusable_Card.dart';
-import 'constants.dart';
+import '../components/Icon_Content.dart';
+import '../components/Reusable_Card.dart';
+import '../components/RoundIconButton.dart';
+import '../constants.dart';
+import '../components/BottomButton.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -219,35 +223,28 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10.0),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-          )
+          ButtomButton(
+            onPressed: (){
+
+             CalculatorBrain calc = new CalculatorBrain(height: height, weight: weigh);
+
+             Navigator.push(
+               context,
+               MaterialPageRoute(
+                   builder: (context) => ResultsPage(
+                    results: calc.calculateBMI(),
+                     resultText: calc.getResults(),
+                     inter: calc.extra(),
+                   ),
+               ),
+             );
+
+            },
+            title: 'CALCULATE',
+          ),
         ],
       ),
     );
   }
 }
 
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton({this.icon, this.onPressed});
-  final IconData icon;
-  Function onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(
-        icon,
-        color: Colors.white60,
-      ),
-      onPressed: onPressed,
-      shape: CircleBorder(),
-      disabledElevation: 6.0,
-      fillColor: Color(0xFF4C4F5C),
-      constraints: BoxConstraints.tightFor(width: 50.0, height: 50.0),
-    );
-  }
-}
